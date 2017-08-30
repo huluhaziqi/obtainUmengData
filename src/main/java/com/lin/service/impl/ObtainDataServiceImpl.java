@@ -35,30 +35,19 @@ public class ObtainDataServiceImpl implements ObtainDataService {
     private final String UMENG_ANDROID_ID = "7d8100e975a0b72bda302585";
     private final String UMENG_IOS_ID = "0f420015d6b58ea2fc302585";
 
-    public final String UMENG_ANDROID_REPORT_URL = "http://mobile.umeng.com/apps/" + UMENG_ANDROID_ID + "/reports/active_user";
-    public final String UMENG_IOS_REPORT_URL = "http://mobile.umeng.com/apps/" + UMENG_IOS_ID + "/reports/active_user";
+    public final String UMENG_REPORT_URL = "http://mobile.umeng.com/apps/%s/reports/active_user";
 
-    public final String UMENG_ANDROID_ACTIVE_USER_URL = "http://mobile.umeng.com/apps/" + UMENG_ANDROID_ID + "/reports/get_active_user_summary";
-    public final String UMENG_IOS_ACTIVE_USER_URL = "http://mobile.umeng.com/apps/" + UMENG_IOS_ID + "/reports/get_active_user_summary";
-    public final String UMENG_ANDROID_ACTIVE_USER_BETWEEN_DATE_URL = "http://mobile.umeng.com/apps/" + UMENG_ANDROID_ID +
-            "/reports/load_table_data?page=%s&per_page=%s&start_date=%s&end_date=%s" +
+    public final String UMENG_ACTIVE_USER_URL = "http://mobile.umeng.com/apps/%s/reports/get_active_user_summary";
+
+    public final String UMENG_ACTIVE_USER_BETWEEN_DATE_URL = "http://mobile.umeng.com/apps/%s/reports/load_table_data?page=%s&per_page=%s&start_date=%s&end_date=%s" +
             "&time_unit=daily&stats=active_users";
-    public final String UMENG_IOS_ACTIVE_USER_BETWEEN_DATE_URL = "http://mobile.umeng.com/apps/" + UMENG_IOS_ID +
-            "/reports/load_table_data?page=%s&per_page=%s&start_date=%s&end_date=%s" +
-            "&time_unit=daily&stats=active_users";
-    public final String UMENG_IOS_DURATION_URL = "http://mobile.umeng.com/apps/" + UMENG_IOS_ID + "/reports/load_table_data?page=%s&per_page=%s" +
-            "&start_date=%s&end_date=%s&time_unit=daily&stats=duration&stat_type=daily_per_launch";
-    public final String UMENG_ANDROID_DURATION_URL = "http://mobile.umeng.com/apps/" + UMENG_ANDROID_ID + "/reports/load_table_data?page=%s&per_page=%s" +
+    public final String UMENG_DURATION_URL = "http://mobile.umeng.com/apps/%s/reports/load_table_data?page=%s&per_page=%s" +
             "&start_date=%s&end_date=%s&time_unit=daily&stats=duration&stat_type=daily_per_launch";
 
-    public final String UMENG_IOS_DAILY_USER_LENGTH_TIME_URL = "http://mobile.umeng.com/apps/" + UMENG_IOS_ID + "/reports/load_table_data?page=%s&per_page=%s" +
-            "&start_date=%s&end_date=%s&time_unit=daily&stats=duration&stat_type=daily";
-    public final String UMENG_ANDROID_DAILY_USER_LENGTH_TIME_URL = "http://mobile.umeng.com/apps/" + UMENG_ANDROID_ID + "/reports/load_table_data?page=%s&per_page=%s" +
+    public final String UMENG_DAILY_USER_LENGTH_TIME_URL = "http://mobile.umeng.com/apps/%s/reports/load_table_data?page=%s&per_page=%s" +
             "&start_date=%s&end_date=%s&time_unit=daily&stats=duration&stat_type=daily";
 
-    public final String UMENG_IOS_DAILY_USE_COUNT_URL = "http://mobile.umeng.com/apps/" + UMENG_IOS_ID + "/reports/load_table_data?page=%s&per_page=%s" +
-            "&start_date=%s&end_date=%s&time_unit=daily&stats=frequency&stat_type=daily";
-    public final String UMENG_ANDROID_DAILY_USE_COUNT_URL = "http://mobile.umeng.com/apps/" + UMENG_ANDROID_ID + "/reports/load_table_data?page=%s&per_page=%s" +
+    public final String UMENG_DAILY_USE_COUNT_URL = "http://mobile.umeng.com/apps/%s/reports/load_table_data?page=%s&per_page=%s" +
             "&start_date=%s&end_date=%s&time_unit=daily&stats=frequency&stat_type=daily";
 
     static {
@@ -105,13 +94,13 @@ public class ObtainDataServiceImpl implements ObtainDataService {
 
     @Override
     public ActityUserSummaryEntity getAndroidReport() {
-        String string = getReport(UMENG_ANDROID_REPORT_URL,UMENG_ANDROID_ACTIVE_USER_URL);
+        String string = getReport(String.format(UMENG_REPORT_URL,UMENG_ANDROID_ID),String.format(UMENG_ACTIVE_USER_URL,UMENG_ANDROID_ID));
         return JsonUtils.jsonStr2Obj(string,ActityUserSummaryEntity.class);
     }
 
     @Override
     public ActityUserSummaryEntity getIosReport() {
-        String string = getReport(UMENG_IOS_REPORT_URL,UMENG_IOS_ACTIVE_USER_URL);
+        String string = getReport(String.format(UMENG_REPORT_URL,UMENG_IOS_ID),String.format(UMENG_ACTIVE_USER_URL,UMENG_IOS_ID));
         return JsonUtils.jsonStr2Obj(string,ActityUserSummaryEntity.class);
     }
 
