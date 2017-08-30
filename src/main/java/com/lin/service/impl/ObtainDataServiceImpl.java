@@ -1,6 +1,7 @@
 package com.lin.service.impl;
 
 import com.lin.model.entity.ActityUserSummaryEntity;
+import com.lin.model.entity.StatDailyUseLengthTimeEntity;
 import com.lin.service.ObtainDataService;
 import com.lin.util.JsonUtils;
 import org.apache.http.*;
@@ -25,6 +26,7 @@ import java.util.*;
 public class ObtainDataServiceImpl implements ObtainDataService {
 
     private Logger logger = LoggerFactory.getLogger(ObtainDataServiceImpl.class);
+
 
     public static CloseableHttpClient client;
     public static final String PARAMTER_ENCODING = "UTF-8";
@@ -55,7 +57,7 @@ public class ObtainDataServiceImpl implements ObtainDataService {
     }
     private Map<String,String> cookieMapGlobal = new HashMap<>();
 
-    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD");
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public boolean isLoginSuccess() {
@@ -104,6 +106,25 @@ public class ObtainDataServiceImpl implements ObtainDataService {
         return JsonUtils.jsonStr2Obj(string,ActityUserSummaryEntity.class);
     }
 
+    @Override
+    public StatDailyUseLengthTimeEntity getAndroidStatDailyUserLengthTimeReport() {
+        Date date = new Date();
+        String startDateKey = simpleDateFormat.format(date);
+        String endDateKey = simpleDateFormat.format(date);
+        logger.info("startDateKey {}  endDateKey {}",startDateKey,endDateKey);
+        String string = getReport(String.format(UMENG_REPORT_URL,UMENG_ANDROID_ID),String.format(UMENG_DURATION_URL,UMENG_ANDROID_ID,1,30,startDateKey,endDateKey));
+        return JsonUtils.jsonStr2Obj(string,StatDailyUseLengthTimeEntity.class);
+    }
+
+    @Override
+    public StatDailyUseLengthTimeEntity getIosStatDailyUserLengthTimeReport() {
+        Date date = new Date();
+        String startDateKey = simpleDateFormat.format(date);
+        String endDateKey = simpleDateFormat.format(date);
+        String string = getReport(String.format(UMENG_REPORT_URL,UMENG_IOS_ID),String.format(UMENG_DURATION_URL,UMENG_IOS_ID,1,30,startDateKey,endDateKey));
+        return JsonUtils.jsonStr2Obj(string,StatDailyUseLengthTimeEntity.class);
+    }
+
     public void setUserAgentMap(Map<String, String> headerMap) {
         headerMap.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36");
     }
@@ -112,7 +133,7 @@ public class ObtainDataServiceImpl implements ObtainDataService {
         headerMap.put("x-requested-with","XMLHttpRequest");
         headerMap.put("origin","https://i.umeng.com");
         headerMap.put("Referer","https://i.umeng.com/");
-        headerMap.put("content-type","application/x-www-form-urlencoded; charset=UTF-8");
+        headerMap.put("content-type","application/x-www-form-urlencoded");
 
     }
 

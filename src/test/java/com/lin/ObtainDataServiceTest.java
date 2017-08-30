@@ -2,6 +2,7 @@ package com.lin;
 
 
 import com.lin.model.entity.ActityUserSummaryEntity;
+import com.lin.model.entity.StatDailyUseLengthTimeEntity;
 import com.lin.service.ObtainDataService;
 import com.lin.util.JsonUtils;
 import org.apache.http.HttpEntity;
@@ -60,6 +61,21 @@ public class ObtainDataServiceTest {
             e.printStackTrace();
         }finally {
 
+        }
+    }
+
+    @Test
+    public void testGetDailyUseLengthTime(){
+        try {
+            boolean login = obtainDataService.isLoginSuccess();
+            if(login){
+                StatDailyUseLengthTimeEntity statDailyUseLengthTimeEntityAndroid = obtainDataService.getAndroidStatDailyUserLengthTimeReport();
+                StatDailyUseLengthTimeEntity statDailyUseLengthTimeEntityIos = obtainDataService.getIosStatDailyUserLengthTimeReport();
+                logger.info("statDailyUseLengthTimeEntityAndroid {}",JsonUtils.obj2JsonStr(statDailyUseLengthTimeEntityAndroid));
+                logger.info("statDailyUseLengthTimeEntityIos {}",JsonUtils.obj2JsonStr(statDailyUseLengthTimeEntityIos));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
